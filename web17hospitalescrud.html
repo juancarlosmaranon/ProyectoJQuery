@@ -57,6 +57,7 @@
                     $.each(data,function(index,hosp){
                         console.log(data);
                         var tbody = $("tbody");
+                        //CREAMOS LOS ELEMENTOS DE LA TABLA
                         var fila = $("<tr>");
                         var col1 = $("<td>", { "text": hosp.idhospital });
                         var col2 = $("<td>", { "text": hosp.nombre });
@@ -86,6 +87,7 @@
 
                         var col7 = $("<td>");
                         var btnmodificar = $("<button>", {"text": "Modificar","id":"btnmodificar" });
+                        //FUNCION DE MODIFICADO DENTRO DEL BOTON
                         $(col7).append(btnmodificar);
                         $(btnmodificar).click(function(){
                             var request = "webresources/hospitales/put";

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <label>Introduzca 8 numeros:</label>
+    <input type="text" id="cajaNumeros">
+    <label>Introduzca una letra:</label>
+    <input type="text" id="cajaLetra">
+    <button  id="botonCrear">
+        Recoger
+    </button>
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function(){       
+            $("#botonCrear").click(function(){ 
+                //Reccogemos  los numeros input por el id
+                var numeros = parseInt($("#cajaNumeros").val());
+                if(numeros >= 10000000 && numeros <= 99999999) {
+                    var letra = $("#cajaLetra").val();
+                    if( letra.length == 1){
+                        //Definimos las variables para crear los parrafos y cambiar su fondo
+                        var parrafoLetra = $("<p>",{"text": letra, "style": " color:white ;  background-color:black " });
+                        var parrafoNumero =  $("<p>",{"text": numeros, "style": " color:white ;  background-color:black " });
+                        var divisor = $("<div>");
+                        divisor.append(parrafoNumero, parrafoLetra);
+                        $("body").append(divisor);
+                    }else{
+                        console.log("b");
+                    }
+                }else{
+                    console.log("No es un numero o no son 8 numeros");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
