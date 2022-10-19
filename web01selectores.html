@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .azul {
+            color:blue;
+        }
+    </style>
+
+    <script src="js/jquery-3.6.1.min.js"></script>
+</head>
+<body>
+    <h1 class="azul">Selectores JQuery</h1>
+    <h1 id="titulo1">Titulo 1 ID</h1>
+    <P>Aprendiendo JQuery...</P>
+    <button type="button">Soy un boton</button>
+    <button type="button" class="azul">Soy otro boton</button>
+    <p class="azul">Esto es azul</p>
+    <script>
+        $(document).ready(function(){
+            
+            //ESTO ES UNA ACCION, NO QUEREMOS HACER NADA MAS
+            //$("h1").hide();
+            //$("titulo1").hide();
+            //EVENTOS
+            // $("button").click(function(){
+            //     console.log("desapareciendo cosas");
+            //     $("p").hide(); 
+            // });
+            $(".azul").click(function(){
+                console.log("desapareciendo cosas");
+                //CON this ACCEDEMOS AL OBJETO DE LA LLAMADA
+                $("this").fadeOut(1000); 
+            });
+        });
+    </script>
+    
+</body>
+</html>

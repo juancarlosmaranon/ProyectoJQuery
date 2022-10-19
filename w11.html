@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Clientes</h1>
+    <div id="caja"></div>
+    <div id="cliente"></div>
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.get("documents/ClientesXML.xml", function(data){
+                $(data).find("CLIENTE").each(function(){
+                        //RECUPERAMOS EL CONTEIDO DEL TAG
+                        var boton = $("<button>");
+                        boton.text($(this).find("NOMBRE").first().text());
+                        // var cliente = $(this).text();
+                        boton.appendTo("#caja"); 
+                });  
+                $("button").click(function(){
+                    var nombre = $(this).text();
+                    $.get("documents/ClientesXML.xml", function(data){
+                        var filtro = "CLIENTE:contains(" + nombre +")";
+                        var html = "";
+                        console.log($(data).find(filtro));
+
+                         if($(data).find(filtro).length !== 0){
+                        //     //Definimos el elemento de busqueda
+                             var elemento = $(data).find(filtro).first();
+                            //Recogemos y definimos las variables
+                        var nombre = $(elemento).parent().find("NOMBRE").first().text();
+                        //     // var direccion = $(elemento).parent().find("DIRECCION").first().text();
+                        //     // var email = $(elemento).parent().find("EMAIL").first().text();
+                        //     // var cp = $(elemento).parent().find("CODIGOPOSTAL").first().text();
+                        //     // var web = $(elemento).parent().find("PAGINAWEB").first().text();
+                        //     // var imagen = $(elemento).parent().find("IMAGENCLIENTE").first().text();
+                        //     //     //Definimos
+                             html += "<p>El id del cliente es:" +elemento.parent().attr("IDCLIENTE") + "</p>";
+                        html += "<p>El nombre del cliente es:" +nombre+ "</p>";
+                        //     // html += "<p>La dirección del cliente es:" +direccion+ "</p>";
+                        //     // html += "<p>El email del cliente es:" +email+ "</p>";
+                        //     // html += "<p>El código postal del cliente es:" +cp+ "</p>";
+                        //     // html += "<p>La página web del cliente es:" +web+ "</p>";
+                        //     // html += "<p>La imagen del cliente es:" +imagen+ "</p>";
+                         }else{
+                        //     console.log("b");
+                         }
+                        $("#cliente").html(html);
+                    });
+                }); 
+            });    
+        });
+    </script>
+</body>

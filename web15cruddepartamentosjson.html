@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Ejemplo CRUD Jquery JSON</h1>
+    <label>Numero:</label>
+    <input type="text" id="cajanumero">
+    <label>nombre:</label>
+    <input type="text" id="cajanombre">
+    <label>localidad:</label>
+    <input type="text" id="cajalocalidad">
+    <hr/>
+    <button type="button" id="botoninsertar">
+        Insertar
+    </button>
+    <button type="button" id="botonmodificar">
+        Modificar
+    </button>
+    <button type="eliminar" id="botoneliminar">
+        Eliminar
+    </button>
+    <hr/>
+    <table border="1" id="tabladepartamentos">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Nombre</th>
+                <th>Localidades</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script>
+        setInterval(function() {
+            cargarDepartamentos();
+        },1000);
+        var url = "https://apicruddepartamentoscore.azurewebsites.net/";
+        function cargarDepartamentos(){
+            var request = "/api/departamentos";
+            $.ajax({
+                "url": url + request
+                ,"method": "GET"
+                ,"dataType":"json"
+                ,success:function(data){
+                    var html = "";
+                    
+                    $.each(data,function(index,dept){
+                        html += "<tr>";
+                        html += "<td>"+dept.numero+"</td>";
+                        html += "<td>"+dept.nombre+"</td>";
+                        html += "<td>"+dept.localidad+"</td>";
+                        html += "</tr>";
+                    });
+                    $("#tabladepartamentos tbody").html(html);
+
+                }
+            });
+        }
+       $(document).ready(function() {
+            cargarDepartamentos();
+            $("#botoninsertar").click(function(){
+                var num = parseInt($("#cajanumero").val());
+                var nom = $("#cajanombre").val();
+                var loc = $("#cajalocalidad").val();
+                //DEBEMOS ENVIAR UN OBJETO JSON AL METODO POST
+                //CREAMOS UN OBJETO JAVASCRIPT
+                var departamento = new Object();
+                //LAS PROPIEDADES DEBEN COINCIDIR CON EL SERVICIO
+                departamento.numero = num;
+                departamento.nombre = nom;
+                departamento.localidad = loc;
+                //EL OBJETO CREADO DEBEMOS TRANSFORMARLO AL FORMATO
+                //DEL SERVICIO: JSON
+                //PARA TRANSFORMAR A JSON: JSON.strigfy(OBJETO)
+                var dataJson = JSON.stringify(departamento);
+                console.log(dataJson);
+                //LAS PETICIONES NO GET UTILIZAN $.ajax
+                //SI ENVIAMOS INFORMACION AL SERVICIO DEBEMOS
+                //INCLUIR DOS ELEMENTOS MAS DENTRO DE $.ajax
+                // -contentType: EL TIPO DE DATO A ENVIAR
+                // -data: RL OBJETO A ENVIAR
+                var request = "api/departamentos";
+                $.ajax({
+                   "url": url + request
+                   , "type": "POST"
+                   , "data": dataJson
+                   , "contentType": "application/json"
+                   ,success : function(data) {
+                    console.log("Insertado");
+                    cargarDepartamentos();
+                   } 
+                });
+            });
+            $("#botoneliminar").click(function(){
+                var request = "/api/departamentos/";
+                var num = parseInt($("#cajanumero").val());
+
+                $.ajax({
+                    "url": url + request+num
+                    ,"method": "DELETE"
+                    ,success:function(data){
+                        cargarDepartamentos();
+                    }
+                });
+            });
+            $("#botonmodificar").click(function(){
+                var num = parseInt($("#cajanumero").val());
+                var nom = $("#cajanombre").val();
+                var loc = $("#cajalocalidad").val();
+                //DEBEMOS ENVIAR UN OBJETO JSON AL METODO POST
+                //CREAMOS UN OBJETO JAVASCRIPT
+                var departamento = new Object();
+                //LAS PROPIEDADES DEBEN COINCIDIR CON EL SERVICIO
+                //LAS PROPIEDADES DEBEN COINCIDIR CON EL SERVICIO
+                departamento.numero = num;
+                departamento.nombre = nom;
+                departamento.localidad = loc;
+                //EL OBJETO CREADO DEBEMOS TRANSFORMARLO AL FORMATO
+                //DEL SERVICIO: JSON
+                //PARA TRANSFORMAR A JSON: JSON.strigfy(OBJETO)
+                var dataJson = JSON.stringify(departamento);
+                console.log(dataJson);
+                //LAS PETICIONES NO GET UTILIZAN $.ajax
+                //SI ENVIAMOS INFORMACION AL SERVICIO DEBEMOS
+                //INCLUIR DOS ELEMENTOS MAS DENTRO DE $.ajax
+                // -contentType: EL TIPO DE DATO A ENVIAR
+                // -data: RL OBJETO A ENVIAR
+                var request = "api/departamentos";
+                $.ajax({
+                   "url": url + request
+                   , "type": "PUT"
+                   , "data": dataJson
+                   , "contentType": "application/json"
+                   ,success : function(data) {
+                    console.log("Insertado");
+                    cargarDepartamentos();
+                   } 
+                });
+            });
+       });
+    </script>
+</body>
+</html>

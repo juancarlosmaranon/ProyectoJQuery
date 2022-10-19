@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Gnerar controles dinamicos</h1>
+    <input type="range" id="rango" min="1" max="10" value="1"/>
+    <p id="numero">1</p>
+    <div id="caja">
+        <img src="img/img1.png">
+    </div>
+
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#rango").change(function(){
+                var rango = $("#rango").val();
+                var caja = $("#caja");
+                var num = $("#numero");
+                num.text(rango);
+                caja.text("");
+
+                for(var i=0; i<rango; i++){
+                    var img = $("<img>").attr("src","img/img1.png");
+                    img.appendTo(caja);
+                }
+                
+                $("img").mouseover(function(){
+                    $(this).attr("src","img/img2.jpg");
+                });
+                $("img").mouseleave(function(){
+                    $(this).attr("src","img/img1.png");
+                });
+            });
+        });
+    </script>
+
+    
+</body>
+</html>

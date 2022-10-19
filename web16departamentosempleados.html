@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Ejemplo CRUD Jquery JSON</h1>
+    <table border="1" id="tabladepartamentos">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Nombre</th>
+                <th>Localidades</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script>
+        var url = "https://apicruddepartamentoscore.azurewebsites.net/";
+
+        function cargarDepartamentos(){
+            var request = "/api/departamentos";
+            $.ajax({
+                "url": url + request
+                ,"method": "GET"
+                ,"dataType":"json"
+                ,success:function(data){
+                    var html = "";
+                    
+                    $.each(data,function(index,dept){
+                        //O LO HACEMOS CON OBJETOS O LO HACEMOS CON DIBUJO
+                        var fila = $("<tr>");
+                        var col1 = $("<td>", { "text": dept.numero });
+                        fila.append(col1);
+                        var col2 = $("<td>", { "text": dept.nombre });
+                        fila.append(col2);         
+                        var col3 = $("<td>", { "text": dept.localidad });
+                        fila.append(col3);
+                        var col4 = $("<td>", { "text": dept.accion });
+                        fila.append(col4);
+                                     
+                        var href = $("<a>", { "text": "Empleados", "data-iddept": dept.numero });
+                        html += "</tr>";
+                        href.click(function(){
+                            //RECUPERAMOS EL DATA KEY
+                            var request = "api/Empleados/EmpleadosDepartamento/";
+                            $.ajax({
+                                "url": url + request
+                                ,"method": "GET"
+                                ,"dataType":"json"
+                                ,success:function(data){
+                                    $.each(data,function(index,emple){
+                                        html += "<tr>";
+                                        html += "<td>"+emple.idEmpleado+"</td>";
+                                        html += "<td>"+emple.apellido+"</td>";
+                                        html += "<td>"+emple.oficio+"</td>";
+                                        html += "<td>"+emple.salario+"</td>";
+                                        html += "<td>"+emple.departamento+"</td>";
+                                        html += "</tr>";                                        
+                                    });
+                                }
+                            }); 
+                        });
+                    });
+
+                    $("#tabladepartamentos tbody").html(html);
+                }
+            });
+        }
+        $(document).ready(function() {
+            cargarDepartamentos();
+        });
+    </script>
+</body>
+</html>

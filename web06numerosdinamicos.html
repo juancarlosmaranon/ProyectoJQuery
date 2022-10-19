@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=h1, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Sumar numeros</h1>
+    <h1 id="res"></h1>
+    <div id="caja">
+
+    </div>
+    <script src="js/jquery-3.6.1.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+        
+            for(i=0;i<10;i++){
+                var random = parseInt(Math.random()*100);
+                var btn = $("<button>",{"text":random}).attr("value",random);
+                btn.appendTo(caja);
+        
+            }
+            var suma = 0;
+            $("button").click(function(){
+                suma += parseInt($(this).val());
+                $("#res").text(suma);
+            })
+        });
+    </script>
+    
+</body>
+</html>

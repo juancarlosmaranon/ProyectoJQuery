@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="range" id="rango" min="0" max="2" value="0"/>
+    <div id="btns">
+
+    </div>
+    <div id="imgs">
+
+    </div>
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#rango").change(function () {
+                var rango = $('#rango').val();
+                $("#imgs").text("");
+                $("#btns").text("");
+                console.log(rango);
+                for (var i = 0; i < rango; i++) {
+                var btn = $("<button>",{"text":"Imagen "+[i+1], "value":i+1});
+                btn.appendTo($("#btns"));
+                var img1 = $("<img>",{"src":"img/img1.png","data-valor":i+1});
+                img1.appendTo($("#imgs"));
+
+                }
+                
+                $("button").click(function () {
+                    // alert("click");
+                    var boton = $(this).val();
+                    console.log("valbtn "+boton);
+                    var imagenes = $("img");
+    
+                    for (var i = 0; i < imagenes.length; i++) {
+                        //console.log($(imagenes[i]).data("valor"));
+                        if($(imagenes[i]).data("valor")==boton){
+                            $(imagenes[i]).attr("src","img/img2.jpg");
+                        }
+                    }
+                });
+            });
+            
+        });
+    </script>
+</body>
+</html>

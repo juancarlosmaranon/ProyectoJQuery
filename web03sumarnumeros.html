@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+
+    <h1>Sumar numeros JQuery</h1>
+    <label>Numero 1: </label>
+    <input type="text" id="caja1"/>
+    <label>Numero 2: </label>
+    <input type="text" id="caja2"/>
+    <button type="button" id="botonsumar">
+        Sumar numeros
+    </button>
+    <h1 id="res"></h1>
+    
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#botonsumar").click(function(){
+                //CAPTURAMOS EL VALOR DE LAS CAJAS DE TEXTO
+                var num1 = $("#caja1").val();
+                var num2 = $("#caja2").val();
+                //TODO SIGUE SIENDO STRING, DEBEMOS UTILIZAR PARSEINT
+                //PARA CONVERTIR EN NUMERO
+                var suma = parseInt(num1)+parseInt(num2);
+                //DIBUJAMOS SOBRE EL CONTROL h1
+                $("#res").text(suma);
+                //
+                if(suma>=0){
+                    $("#res").css("color","green");
+                }else{
+                    $("#res").css("color","red");
+                }
+
+            });
+        });
+    </script>
+    
+</body>
+</html>

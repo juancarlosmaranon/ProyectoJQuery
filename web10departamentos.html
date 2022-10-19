@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Departamentos</h1>
+    <label>Introduzca ID: </label>
+    <input type="text" id="cajaid"/>
+    <button type="button" id="botonbuscarid">
+        Buscar departamento
+    </button>
+    <hr>
+    <h1 style="color: red;" id="mensaje"></h1>
+    <label>Introduzca Localidad: </label>
+    <input type="text" id="cajalocalidad"/>
+    <button type="button" id="botonbuscalocalidad">
+        Buscar Localidad
+    </button>
+    <hr>
+    <button type="button" id="botondepartamentos">
+        Cargar empleados
+    </button>
+    <table id="tabla">
+        <thead>
+                <th>Numero</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+    
+    
+    <script src="js/jquery-3.6.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#botonbuscalocalidad").click(function() {
+                var loc = $("#cajalocalidad").val();
+                console.log(loc);
+                $.get("documents/departamentos.xml", function(data){
+                    //LOC:contains:(GIJON)
+                    
+                    var filtro = "LOC:contains(" + loc +")";
+                    var html = "";
+                    if($(data).find(filtro).length == 0){
+                        html = "No existen departamentos en "+ loc;
+                    }else{
+                        //RECORREMOS LOS DATOS
+                        $(data).find(filtro).each(function(){
+                            //<LOC>GIJON</LOC>
+                            //<LOC>GIJON</LOC>
+                            html += $(this).text()+",";        
+                        });
+                    }
+                    $("#mensaje").text(html);
+                });
+            });
+
+            $("#botonbuscarid").click(function() {
+                var id = $("#cajaid").val();
+                $.get("documents/departamentos.xml", function(data){
+                    var html = "";
+                    //DEPT[DEPT_NO=10]
+                    var filtro = "DEPT[DEPT_NO=" + id +"]";
+                    //CAPTURAMOS EL NODO DE <DEPT>
+                    var nododept = $(data).find(filtro).first();
+                    var nombre = $(nododept).find("DNOMBRE").first().text();
+                    var localidad = $(nododept).find("LOC").first().text();
+
+                    html += `<tr>
+                                <th>${nododept.attr("DEPT_NO")}</th><br>
+                                <th>${nombre}</th>
+                                <th>${localidad}</th>
+                            </tr>`;
+                    $("#tbody").html(html);
+                    console.log(html);
+                });
+            });
+
+            $("#botondepartamentos").click(function (){
+                console.log("antes del servicios");
+                var html = "";
+                $.get("documents/departamentos.xml", function (data){
+                    console.log("Leyendo");
+                    $(data).find("DEPT").each(function(){
+                        var dept = $(this).attr("DEPT_NO");
+                        var nombre = $(this).find("DNOMBRE").text();
+                        var loc = $(this).find("LOC").text();
+                        console.log(dept);
+                        html += `<tr>
+                                    <th>${dept}</th><br>
+                                    <th>${nombre}</th>
+                                    <th>${loc}</th>
+                                </tr>`;
+                    });
+                    console.log(html);
+                    $("#tabla tbody").html(html);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
